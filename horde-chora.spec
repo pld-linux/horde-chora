@@ -18,7 +18,7 @@ Requires:	apache
 Requires:	cvs
 Requires:	horde >= 2.0
 BuildArch:	noarch
-Buildroot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
+BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		apachedir	/etc/httpd
 %define		contentdir	/home/services/httpd
