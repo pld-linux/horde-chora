@@ -3,7 +3,7 @@ Summary:	Web Based CVS Program
 Summary(pl):	Program do obs³ugi CVS przez WWW
 Name:		chora
 Version:	1.1
-Release:	0.1
+Release:	0.2
 License:	GPL v2
 Group:		Networking/Utilities
 Source0:	ftp://ftp.horde.org/pub/chora/tarballs/%{name}-%{version}.tar.gz
@@ -56,6 +56,8 @@ done
 
 ln -sf	%{contentdir}/html/horde/%{name}/config $RPM_BUILD_ROOT%{apachedir}/%{name}
 
+cp config/README docs/README.config
+
 cd $RPM_BUILD_ROOT%{contentdir}/html/horde/%{name}/config/
 for i in *.dist; do cp $i `basename $i .dist`; done
 
@@ -88,7 +90,7 @@ fi
 
 %files
 %defattr(644,root,root,755)
-%doc README docs/* config/README
+%doc README docs/*
 
 %dir %{contentdir}/html/horde/%{name}
 %attr(640,root,http) %{contentdir}/html/horde/%{name}/*.php
