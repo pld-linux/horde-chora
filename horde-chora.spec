@@ -18,7 +18,7 @@ BuildArch:	noarch
 Buildroot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		apachedir	/etc/httpd
-%define		contentdir	/home/httpd
+%define		contentdir	/home/services/httpd
 
 %description
 Chora is the CVS viewing frontend, one of the Horde components. It
