@@ -1,7 +1,6 @@
 # TODO:
 # - major upgrade
 # - kill /srv from spec
-# - SECURITY: http://securitytracker.com/alerts/2004/Jun/1010483.html
 %include        /usr/lib/rpm/macros.php
 Summary:	Web Based CVS Program
 Summary(pl):	Program do obs³ugi CVS przez WWW
