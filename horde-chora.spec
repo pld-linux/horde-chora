@@ -11,7 +11,7 @@ Source1:	%{name}.conf
 URL:		http://www.horde.org/chora/
 Prereq:		perl
 Prereq:		webserver
-BuildRequires:	rpm-php-pearprov >= 4.0.2-97
+BuildRequires:	rpm-php-pearprov >= 4.0.2-98
 Requires:	cvs
 Requires:	horde >= 2.0
 BuildArch:	noarch
