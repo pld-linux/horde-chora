@@ -3,7 +3,7 @@ Summary:	Web Based CVS Program
 Summary(pl):	Program do obs³ugi CVS przez WWW
 Name:		chora
 Version:	1.2
-Release:	0.1
+Release:	0.2
 License:	GPL v2
 Group:		Networking/Utilities
 Source0:	ftp://ftp.horde.org/pub/chora/tarballs/%{name}-%{version}.tar.gz
@@ -21,7 +21,7 @@ BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		apachedir	/etc/httpd
-%define		contentdir	/home/services/httpd
+%define		contentdir	/srv/httpd
 
 %description
 Chora is the CVS viewing frontend, one of the Horde components. It
