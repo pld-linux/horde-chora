@@ -1,31 +1,29 @@
-# TODO:
-# - major upgrade
-# - kill /srv from spec
 %include	/usr/lib/rpm/macros.php
 Summary:	Web Based CVS Program
 Summary(pl):	Program do obs³ugi CVS przez WWW
 Name:		chora
-Version:	1.2.2
-Release:	0.1
+Version:	2.0
+Release:	0.14
 License:	GPL v2
 Group:		Networking/Utilities
-Source0:	ftp://ftp.horde.org/pub/chora/tarballs/%{name}-%{version}.tar.gz
-# Source0-md5:	32017a2430971d501429b7dd5c1f5b95
+Source0:	ftp://ftp.horde.org/pub/chora/%{name}-h3-%{version}.tar.gz
+# Source0-md5:	11f4b8ad6e0706026aefd0ee29eff7a5
 Source1:	%{name}.conf
 URL:		http://www.horde.org/chora/
-BuildRequires:	fhs-compliance
-BuildRequires:	rpm-php-pearprov >= 4.0.2-98
-Requires(post):	grep
-Requires(post,preun):	apache
-Requires(post,preun):	perl
 Requires:	apache
+# well. depending on configuration, it needs cvs, rcs or svn, cvsps
 Requires:	cvs
-Requires:	horde >= 2.0
+Requires:	rcs
+Requires:	horde >= 3.0
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
-%define		apachedir	/etc/httpd
-%define		contentdir	/srv/httpd
+%define		_noautoreq	'pear(Horde.*)'
+
+%define		hordedir	/usr/share/horde
+%define		_sysconfdir	/etc/horde.org
+%define		_apache1dir	/etc/apache
+%define		_apache2dir	/etc/httpd
 
 %description
 Chora is the CVS viewing frontend, one of the Horde components. It
@@ -33,7 +31,7 @@ provides webmail access to CVS repositories.
 
 The Horde Project writes web applications in PHP and releases them
 under the GNU Public License. For more information (including help
-with IMP) please visit http://www.horde.org/.
+with IMP) please visit <http://www.horde.org/>.
 
 %description -l pl
 Chora jest programem do obs³ugi CVS przez WWW, bazowanym na Horde.
@@ -41,75 +39,86 @@ Daje dostêp do zasobów CVS z wygodnym interfejsem WWW.
 
 Projekt Horde tworzy aplikacje w PHP i dostarcza je na licencji GNU
 Public License. Je¿eli chcesz siê dowiedzieæ czego¶ wiêcej (tak¿e help
-do IMP-a) zajrzyj na stronê http://www.horde.org/.
+do IMP-a) zajrzyj na stronê <http://www.horde.org/>.
 
 %prep
-%setup -q
+%setup -q -n %{name}-h3-%{version}
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT%{apachedir}
-install -d $RPM_BUILD_ROOT%{contentdir}/html/horde/%{name}/{config,graphics,lib,locale,templates}
+install -d $RPM_BUILD_ROOT%{_sysconfdir}/%{name} \
+	$RPM_BUILD_ROOT%{hordedir}/%{name}/{lib,lib,locale,templates,themes}
 
-install %{SOURCE1} 		$RPM_BUILD_ROOT%{apachedir}
-cp -pR	*.php			$RPM_BUILD_ROOT%{contentdir}/html/horde/%{name}
-cp -pR	config/*.dist		$RPM_BUILD_ROOT%{contentdir}/html/horde/%{name}/config
-
-for i in graphics lib locale templates; do
-	cp -pR	$i/*		$RPM_BUILD_ROOT%{contentdir}/html/horde/%{name}/$i
+cp -pR	*.php			$RPM_BUILD_ROOT%{hordedir}/%{name}
+for i in config/*.dist; do
+	cp -p $i $RPM_BUILD_ROOT%{_sysconfdir}/%{name}/$(basename $i .dist)
 done
-for i in config lib locale templates; do
-	cp -p	$i/.htaccess	$RPM_BUILD_ROOT%{contentdir}/html/horde/%{name}/$i
+cp -pR	config/*.xml		$RPM_BUILD_ROOT%{_sysconfdir}/%{name}
+
+echo "<?php ?>" > 		$RPM_BUILD_ROOT%{_sysconfdir}/%{name}/conf.php
+sed -e '
+	s,/usr/local/bin/cvsps,/usr/bin/cvsps,
+	s,dirname(__FILE__).*/cvsgraph.conf.,%{_sysconfdir}/%{name}/cvsgraph.conf,
+' < config/conf.xml > $RPM_BUILD_ROOT%{_sysconfdir}/%{name}/conf.xml
+
+for i in lib locale templates themes; do
+	cp -pR	$i/*		$RPM_BUILD_ROOT%{hordedir}/%{name}/$i
 done
 
-ln -sf	%{contentdir}/html/horde/%{name}/config $RPM_BUILD_ROOT%{apachedir}/%{name}
-
-cp config/README docs/README.config
-
-cd $RPM_BUILD_ROOT%{contentdir}/html/horde/%{name}/config
-for i in *.dist; do cp $i `basename $i .dist`; done
+ln -s	%{_sysconfdir}/%{name} 	$RPM_BUILD_ROOT%{hordedir}/%{name}/config
+install %{SOURCE1} 		$RPM_BUILD_ROOT%{_sysconfdir}/apache-%{name}.conf
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %post
-grep -qi 'Include.*%{name}.conf$' %{apachedir}/httpd.conf
-echo "Changing apache configuration"
-if [ $? -eq 0 ]; then
-	perl -pi -e 's/^#+// if (/Include.*%{name}.conf$/i);' %{apachedir}/httpd.conf
-else
-	echo "Include %{apachedir}/%{name}.conf" >>%{apachedir}/httpd.conf
+# apache1
+if [ -d %{_apache1dir}/conf.d ]; then
+	ln -sf %{_sysconfdir}/apache-%{name}.conf %{_apache1dir}/conf.d/99_%{name}.conf
+	if [ -f /var/lock/subsys/apache ]; then
+		/etc/rc.d/init.d/apache restart 1>&2
+	fi
 fi
-if [ -f /var/lock/subsys/httpd ]; then
-	/etc/rc.d/init.d/httpd restart 1>&2
-else
-	echo "Run \"/etc/rc.d/init.d/httpd start\" to start HTTP daemon."
+# apache2
+if [ -d %{_apache2dir}/httpd.conf ]; then
+	ln -sf %{_sysconfdir}/apache-%{name}.conf %{_apache2dir}/httpd.conf/99_%{name}.conf
+	if [ -f /var/lock/subsys/httpd ]; then
+		/etc/rc.d/init.d/httpd restart 1>&2
+	fi
 fi
 
 %postun
-echo "Changing apache configuration"
-perl -pi -e 's/^/#/ if (/^Include.*%{name}.conf$/i);' %{apachedir}/httpd.conf
-if [ -f /var/lock/subsys/httpd ]; then
-	/etc/rc.d/init.d/httpd restart 1>&2
-else
-	echo "Run \"/etc/rc.d/init.d/httpd start\" to start HTTP daemon."
+if [ "$1" = "0" ]; then
+	# apache1
+	if [ -d %{_apache1dir}/conf.d ]; then
+		rm -f %{_apache1dir}/conf.d/99_%{name}.conf
+		if [ -f /var/lock/subsys/apache ]; then
+			/etc/rc.d/init.d/apache restart 1>&2
+		fi
+	fi
+	# apache2
+	if [ -d %{_apache2dir}/httpd.conf ]; then
+		rm -f %{_apache2dir}/httpd.conf/99_%{name}.conf
+		if [ -f /var/lock/subsys/httpd ]; then
+			/etc/rc.d/init.d/httpd restart 1>&2
+		fi
+	fi
 fi
 
 %files
 %defattr(644,root,root,755)
 %doc README docs/*
+%attr(770,root,http) %dir %{_sysconfdir}/%{name}
+%attr(640,root,root) %config(noreplace) %{_sysconfdir}/apache-%{name}.conf
+%attr(660,root,http) %config(noreplace) %{_sysconfdir}/%{name}/*.php
+%attr(640,root,http) %config(noreplace) %{_sysconfdir}/%{name}/*.txt
+%attr(640,root,http) %config(noreplace) %{_sysconfdir}/%{name}/*.conf
+%attr(640,root,http) %{_sysconfdir}/%{name}/*.xml
 
-%dir %{contentdir}/html/horde/%{name}
-%attr(640,root,http) %{contentdir}/html/horde/%{name}/*.php
-%attr(750,root,http) %{contentdir}/html/horde/%{name}/graphics
-%attr(750,root,http) %{contentdir}/html/horde/%{name}/lib
-%attr(750,root,http) %{contentdir}/html/horde/%{name}/locale
-%attr(750,root,http) %{contentdir}/html/horde/%{name}/templates
-
-%attr(750,root,http) %dir %{contentdir}/html/horde/%{name}/config
-%attr(640,root,http) %{contentdir}/html/horde/%{name}/config/*.dist
-%attr(640,root,http) %{contentdir}/html/horde/%{name}/config/.htaccess
-%attr(640,root,http) %config(noreplace) %{apachedir}/%{name}.conf
-%attr(640,root,http) %config(noreplace) %{contentdir}/html/horde/%{name}/config/*.php
-%attr(640,root,http) %config(noreplace) %{contentdir}/html/horde/%{name}/config/*.txt
-%{apachedir}/%{name}
+%dir %{hordedir}/%{name}
+%{hordedir}/%{name}/config
+%{hordedir}/%{name}/*.php
+%{hordedir}/%{name}/lib
+%{hordedir}/%{name}/locale
+%{hordedir}/%{name}/templates
+%{hordedir}/%{name}/themes
