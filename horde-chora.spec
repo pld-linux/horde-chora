@@ -3,7 +3,7 @@ Summary:	Web Based CVS Program
 Summary(pl):	Program do obs³ugi CVS przez WWW
 Name:		chora
 Version:	2.0
-Release:	0.14
+Release:	0.15
 License:	GPL v2
 Group:		Networking/Utilities
 Source0:	ftp://ftp.horde.org/pub/chora/%{name}-h3-%{version}.tar.gz
@@ -21,6 +21,7 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %define		_noautoreq	'pear(Horde.*)'
 
 %define		hordedir	/usr/share/horde
+%define		_appdir		%{hordedir}/%{name}
 %define		_sysconfdir	/etc/horde.org
 %define		_apache1dir	/etc/apache
 %define		_apache2dir	/etc/httpd
@@ -47,9 +48,9 @@ do IMP-a) zajrzyj na stronê <http://www.horde.org/>.
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT%{_sysconfdir}/%{name} \
-	$RPM_BUILD_ROOT%{hordedir}/%{name}/{lib,lib,locale,templates,themes}
+	$RPM_BUILD_ROOT%{_appdir}/{lib,lib,locale,templates,themes}
 
-cp -pR	*.php			$RPM_BUILD_ROOT%{hordedir}/%{name}
+cp -pR	*.php			$RPM_BUILD_ROOT%{_appdir}
 for i in config/*.dist; do
 	cp -p $i $RPM_BUILD_ROOT%{_sysconfdir}/%{name}/$(basename $i .dist)
 done
@@ -62,10 +63,10 @@ sed -e '
 ' < config/conf.xml > $RPM_BUILD_ROOT%{_sysconfdir}/%{name}/conf.xml
 
 for i in lib locale templates themes; do
-	cp -pR	$i/*		$RPM_BUILD_ROOT%{hordedir}/%{name}/$i
+	cp -pR	$i/*		$RPM_BUILD_ROOT%{_appdir}/$i
 done
 
-ln -s	%{_sysconfdir}/%{name} 	$RPM_BUILD_ROOT%{hordedir}/%{name}/config
+ln -s	%{_sysconfdir}/%{name} 	$RPM_BUILD_ROOT%{_appdir}/config
 install %{SOURCE1} 		$RPM_BUILD_ROOT%{_sysconfdir}/apache-%{name}.conf
 
 %clean
@@ -115,10 +116,10 @@ fi
 %attr(640,root,http) %config(noreplace) %{_sysconfdir}/%{name}/*.conf
 %attr(640,root,http) %{_sysconfdir}/%{name}/*.xml
 
-%dir %{hordedir}/%{name}
-%{hordedir}/%{name}/config
-%{hordedir}/%{name}/*.php
-%{hordedir}/%{name}/lib
-%{hordedir}/%{name}/locale
-%{hordedir}/%{name}/templates
-%{hordedir}/%{name}/themes
+%dir %{_appdir}
+%{_appdir}/config
+%{_appdir}/*.php
+%{_appdir}/lib
+%{_appdir}/locale
+%{_appdir}/templates
+%{_appdir}/themes
