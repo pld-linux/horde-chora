@@ -7,6 +7,7 @@ Release:	0.3
 License:	GPL v2
 Group:		Networking/Utilities
 Source0:	ftp://ftp.horde.org/pub/chora/tarballs/%{name}-%{version}.tar.gz
+# Source0-md5:	fffcdc04a6440ec42bdc62de79941a4a
 Source1:	%{name}.conf
 URL:		http://www.horde.org/chora/
 BuildRequires:	rpm-php-pearprov >= 4.0.2-98
