@@ -1,7 +1,7 @@
 # TODO:
 # - major upgrade
 # - kill /srv from spec
-%include        /usr/lib/rpm/macros.php
+%include	/usr/lib/rpm/macros.php
 Summary:	Web Based CVS Program
 Summary(pl):	Program do obs³ugi CVS przez WWW
 Name:		chora
