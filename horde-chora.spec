@@ -3,7 +3,7 @@ Summary:	Web Based CVS Program
 Summary(pl):	Program do obs³ugi CVS przez WWW
 Name:		chora
 Version:	2.0
-Release:	0.19
+Release:	0.21
 License:	GPL v2
 Group:		Networking/Utilities
 Source0:	ftp://ftp.horde.org/pub/chora/%{name}-h3-%{version}.tar.gz
@@ -11,7 +11,7 @@ Source0:	ftp://ftp.horde.org/pub/chora/%{name}-h3-%{version}.tar.gz
 Source1:	%{name}.conf
 URL:		http://www.horde.org/chora/
 Requires:	apache >= 1.3.33-2
-# well. depending on configuration, it needs cvs, rcs or svn, cvsps
+# well. depending on configuration, it needs cvs, rcs or svn, cvsps >= 2.0b6
 Requires:	cvs
 Requires:	rcs
 Requires:	horde >= 3.0
@@ -79,6 +79,10 @@ install %{SOURCE1} 		$RPM_BUILD_ROOT%{_sysconfdir}/apache-%{name}.conf
 rm -rf $RPM_BUILD_ROOT
 
 %post
+if [ ! -f %{_sysconfdir}/%{name}/conf.php.bak ]; then
+	install /dev/null -o root -g http -m660 %{_sysconfdir}/%{name}/conf.php.bak
+fi
+
 # apache1
 if [ -d %{_apache1dir}/conf.d ]; then
 	ln -sf %{_sysconfdir}/apache-%{name}.conf %{_apache1dir}/conf.d/99_%{name}.conf
@@ -118,7 +122,7 @@ fi
 %attr(750,root,http) %dir %{_sysconfdir}/%{name}
 %attr(640,root,root) %config(noreplace) %{_sysconfdir}/apache-%{name}.conf
 %attr(660,root,http) %config(noreplace) %{_sysconfdir}/%{name}/conf.php
-%attr(660,root,http) %config(noreplace) %{_sysconfdir}/%{name}/conf.php.bak
+%attr(660,root,http) %config(noreplace) %ghost %{_sysconfdir}/%{name}/conf.php.bak
 %attr(640,root,http) %config(noreplace) %{_sysconfdir}/%{name}/[!c]*.php
 %attr(640,root,http) %config(noreplace) %{_sysconfdir}/%{name}/*.txt
 %attr(640,root,http) %config(noreplace) %{_sysconfdir}/%{name}/*.conf
