@@ -56,8 +56,6 @@ done
 
 ln -sf	%{contentdir}/html/horde/%{name}/config $RPM_BUILD_ROOT%{apachedir}/%{name}
 
-gzip -9nf README docs/* config/README
-
 cd $RPM_BUILD_ROOT%{contentdir}/html/horde/%{name}/config/
 for i in *.dist; do cp $i `basename $i .dist`; done
 
@@ -90,7 +88,7 @@ fi
 
 %files
 %defattr(644,root,root,755)
-%doc *.gz docs/*.gz config/*.gz
+%doc README docs/* config/README
 
 %dir %{contentdir}/html/horde/%{name}
 %attr(640,root,http) %{contentdir}/html/horde/%{name}/*.php
