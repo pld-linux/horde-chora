@@ -1,8 +1,9 @@
+%include        /usr/lib/rpm/macros.php
 Summary:	Web Based CVS Program
 Summary(pl):	Program do obs³ugi CVS przez WWW
 Name:		chora
-Version:	1.0
-Release:	1
+Version:	1.1
+Release:	0.1
 License:	GPL v2
 Group:		Networking/Utilities
 Source0:	ftp://ftp.horde.org/pub/chora/tarballs/%{name}-%{version}.tar.gz
