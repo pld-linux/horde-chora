@@ -3,7 +3,7 @@ Summary:	Web Based CVS Program
 Summary(pl):	Program do obs³ugi CVS przez WWW
 Name:		chora
 Version:	2.0
-Release:	0.18
+Release:	0.19
 License:	GPL v2
 Group:		Networking/Utilities
 Source0:	ftp://ftp.horde.org/pub/chora/%{name}-h3-%{version}.tar.gz
@@ -115,13 +115,13 @@ fi
 %files
 %defattr(644,root,root,755)
 %doc README docs/*
-%attr(770,root,http) %dir %{_sysconfdir}/%{name}
+%attr(750,root,http) %dir %{_sysconfdir}/%{name}
 %attr(640,root,root) %config(noreplace) %{_sysconfdir}/apache-%{name}.conf
 %attr(660,root,http) %config(noreplace) %{_sysconfdir}/%{name}/conf.php
+%attr(660,root,http) %config(noreplace) %{_sysconfdir}/%{name}/conf.php.bak
 %attr(640,root,http) %config(noreplace) %{_sysconfdir}/%{name}/[!c]*.php
 %attr(640,root,http) %config(noreplace) %{_sysconfdir}/%{name}/*.txt
 %attr(640,root,http) %config(noreplace) %{_sysconfdir}/%{name}/*.conf
-%ghost %{_sysconfdir}/%{name}/*.php.bak
 %attr(640,root,http) %{_sysconfdir}/%{name}/*.xml
 
 %dir %{_appdir}
