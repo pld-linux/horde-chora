@@ -35,8 +35,8 @@ under the GNU Public License. For more information (including help
 with IMP) please visit http://www.horde.org/.
 
 %description -l pl
-Chora jest programem do obs³ugi CVS przez www, bazowanym na Horde.
-Daje dostêp do zasobów CVS z wygodnym interfejsem www.
+Chora jest programem do obs³ugi CVS przez WWW, bazowanym na Horde.
+Daje dostêp do zasobów CVS z wygodnym interfejsem WWW.
 
 Projekt Horde tworzy aplikacje w PHP i dostarcza je na licencji GNU
 Public License. Je¿eli chcesz siê dowiedzieæ czego¶ wiêcej (tak¿e help
