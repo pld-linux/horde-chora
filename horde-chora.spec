@@ -13,6 +13,7 @@ Source0:	ftp://ftp.horde.org/pub/chora/tarballs/%{name}-%{version}.tar.gz
 # Source0-md5:	32017a2430971d501429b7dd5c1f5b95
 Source1:	%{name}.conf
 URL:		http://www.horde.org/chora/
+BuildRequires:	fhs-compliance
 BuildRequires:	rpm-php-pearprov >= 4.0.2-98
 Requires(post):	grep
 Requires(post,preun):	apache
