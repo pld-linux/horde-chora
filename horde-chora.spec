@@ -7,11 +7,11 @@ License:	GPL v2
 Group:		Networking/Utilities
 Source0:	ftp://ftp.horde.org/pub/chora/tarballs/%{name}-%{version}.tar.gz
 Source1:	%{name}.conf
-URL:		http://www.horde.org/chora
-Requires:	cvs
-Requires:	horde >= 2.0
+URL:		http://www.horde.org/chora/
 Prereq:		perl
 Prereq:		webserver
+Requires:	cvs
+Requires:	horde >= 2.0
 BuildArch:	noarch
 Buildroot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -32,14 +32,14 @@ Daje dostêp do zasobów CVS z wygodnym interfejsem www.
 
 Projekt Horde tworzy aplikacje w PHP i dostarcza je na licencji GNU
 Public License. Je¿eli chcesz siê dowiedzieæ czego¶ wiêcej (tak¿e help
-do IMP'a) zajrzyj na stronê http://www.horde.org
+do IMP-a) zajrzyj na stronê http://www.horde.org/.
 
 %prep
 %setup -q
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT%{apachedir}/
+install -d $RPM_BUILD_ROOT%{apachedir}
 install -d $RPM_BUILD_ROOT%{contentdir}/html/horde/%{name}/{config,graphics,lib,locale,templates}
 
 install %{SOURCE1} 		$RPM_BUILD_ROOT%{apachedir}
@@ -77,7 +77,6 @@ if [ -f /var/lock/subsys/httpd ]; then
 else
 	echo "Run \"/etc/rc.d/init.d/httpd start\" to start http daemon."
 fi
-
 
 %postun
 echo "Changing apache configuration"
