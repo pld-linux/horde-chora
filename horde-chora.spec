@@ -83,7 +83,7 @@ fi
 if [ -f /var/lock/subsys/httpd ]; then
 	/etc/rc.d/init.d/httpd restart 1>&2
 else
-	echo "Run \"/etc/rc.d/init.d/httpd start\" to start http daemon."
+	echo "Run \"/etc/rc.d/init.d/httpd start\" to start HTTP daemon."
 fi
 
 %postun
@@ -92,7 +92,7 @@ perl -pi -e 's/^/#/ if (/^Include.*%{name}.conf$/i);' %{apachedir}/httpd.conf
 if [ -f /var/lock/subsys/httpd ]; then
 	/etc/rc.d/init.d/httpd restart 1>&2
 else
-	echo "Run \"/etc/rc.d/init.d/httpd start\" to start http daemon."
+	echo "Run \"/etc/rc.d/init.d/httpd start\" to start HTTP daemon."
 fi
 
 %files
