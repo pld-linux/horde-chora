@@ -3,14 +3,14 @@ Summary:	Web Based CVS Program
 Summary(pl):	Program do obs³ugi CVS przez WWW
 Name:		chora
 Version:	2.0
-Release:	0.15
+Release:	0.16
 License:	GPL v2
 Group:		Networking/Utilities
 Source0:	ftp://ftp.horde.org/pub/chora/%{name}-h3-%{version}.tar.gz
 # Source0-md5:	11f4b8ad6e0706026aefd0ee29eff7a5
 Source1:	%{name}.conf
 URL:		http://www.horde.org/chora/
-Requires:	apache
+Requires:	apache >= 1.3.33-2
 # well. depending on configuration, it needs cvs, rcs or svn, cvsps
 Requires:	cvs
 Requires:	rcs
@@ -48,7 +48,7 @@ do IMP-a) zajrzyj na stronê <http://www.horde.org/>.
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT%{_sysconfdir}/%{name} \
-	$RPM_BUILD_ROOT%{_appdir}/{lib,lib,locale,templates,themes}
+	$RPM_BUILD_ROOT%{_appdir}/{lib,locale,templates,themes}
 
 cp -pR	*.php			$RPM_BUILD_ROOT%{_appdir}
 for i in config/*.dist; do
@@ -61,10 +61,12 @@ sed -e '
 	s,/usr/local/bin/cvsps,/usr/bin/cvsps,
 	s,dirname(__FILE__).*/cvsgraph.conf.,%{_sysconfdir}/%{name}/cvsgraph.conf,
 ' < config/conf.xml > $RPM_BUILD_ROOT%{_sysconfdir}/%{name}/conf.xml
+> $RPM_BUILD_ROOT%{_sysconfdir}/%{name}/conf.php.bak
 
-for i in lib locale templates themes; do
-	cp -pR	$i/*		$RPM_BUILD_ROOT%{_appdir}/$i
-done
+cp -pR  lib/*                   $RPM_BUILD_ROOT%{_appdir}/lib
+cp -pR  locale/*                $RPM_BUILD_ROOT%{_appdir}/locale
+cp -pR  templates/*             $RPM_BUILD_ROOT%{_appdir}/templates
+cp -pR  themes/*                $RPM_BUILD_ROOT%{_appdir}/themes
 
 ln -s	%{_sysconfdir}/%{name} 	$RPM_BUILD_ROOT%{_appdir}/config
 install %{SOURCE1} 		$RPM_BUILD_ROOT%{_sysconfdir}/apache-%{name}.conf
@@ -111,9 +113,11 @@ fi
 %doc README docs/*
 %attr(770,root,http) %dir %{_sysconfdir}/%{name}
 %attr(640,root,root) %config(noreplace) %{_sysconfdir}/apache-%{name}.conf
-%attr(660,root,http) %config(noreplace) %{_sysconfdir}/%{name}/*.php
+%attr(660,root,http) %config(noreplace) %{_sysconfdir}/%{name}/conf.php
+%attr(640,root,http) %config(noreplace) %{_sysconfdir}/%{name}/[^c]*.php
 %attr(640,root,http) %config(noreplace) %{_sysconfdir}/%{name}/*.txt
 %attr(640,root,http) %config(noreplace) %{_sysconfdir}/%{name}/*.conf
+%ghost %{_sysconfdir}/%{name}/*.php.bak
 %attr(640,root,http) %{_sysconfdir}/%{name}/*.xml
 
 %dir %{_appdir}
