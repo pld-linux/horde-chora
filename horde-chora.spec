@@ -9,9 +9,11 @@ Group:		Networking/Utilities
 Source0:	ftp://ftp.horde.org/pub/chora/tarballs/%{name}-%{version}.tar.gz
 Source1:	%{name}.conf
 URL:		http://www.horde.org/chora/
-Prereq:		perl
-Prereq:		webserver
 BuildRequires:	rpm-php-pearprov >= 4.0.2-98
+Requires(post):	grep
+Requires(post,preun):	apache
+Requires(post,preun):	perl
+Requires:	apache
 Requires:	cvs
 Requires:	horde >= 2.0
 BuildArch:	noarch
@@ -59,21 +61,20 @@ ln -sf	%{contentdir}/html/horde/%{name}/config $RPM_BUILD_ROOT%{apachedir}/%{nam
 
 cp config/README docs/README.config
 
-cd $RPM_BUILD_ROOT%{contentdir}/html/horde/%{name}/config/
+cd $RPM_BUILD_ROOT%{contentdir}/html/horde/%{name}/config
 for i in *.dist; do cp $i `basename $i .dist`; done
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %post
-grep -i 'Include.*%{name}.conf$' %{apachedir}/httpd.conf >/dev/null 2>&1
+grep -qi 'Include.*%{name}.conf$' %{apachedir}/httpd.conf
 echo "Changing apache configuration"
 if [ $? -eq 0 ]; then
 	perl -pi -e 's/^#+// if (/Include.*%{name}.conf$/i);' %{apachedir}/httpd.conf
 else
 	echo "Include %{apachedir}/%{name}.conf" >>%{apachedir}/httpd.conf
 fi
-
 if [ -f /var/lock/subsys/httpd ]; then
 	/etc/rc.d/init.d/httpd restart 1>&2
 else
