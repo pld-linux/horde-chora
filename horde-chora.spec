@@ -3,7 +3,7 @@ Summary:	Web Based CVS Program
 Summary(pl):	Program do obs³ugi CVS przez WWW
 Name:		chora
 Version:	2.0
-Release:	0.16
+Release:	0.18
 License:	GPL v2
 Group:		Networking/Utilities
 Source0:	ftp://ftp.horde.org/pub/chora/%{name}-h3-%{version}.tar.gz
@@ -18,6 +18,8 @@ Requires:	horde >= 3.0
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
+# horde accesses it directly in help->about
+%define		_noautocompressdoc  CREDITS
 %define		_noautoreq	'pear(Horde.*)'
 
 %define		hordedir	/usr/share/horde
@@ -48,7 +50,7 @@ do IMP-a) zajrzyj na stronê <http://www.horde.org/>.
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT%{_sysconfdir}/%{name} \
-	$RPM_BUILD_ROOT%{_appdir}/{lib,locale,templates,themes}
+	$RPM_BUILD_ROOT%{_appdir}/{docs,lib,locale,templates,themes}
 
 cp -pR	*.php			$RPM_BUILD_ROOT%{_appdir}
 for i in config/*.dist; do
@@ -68,7 +70,9 @@ cp -pR  locale/*                $RPM_BUILD_ROOT%{_appdir}/locale
 cp -pR  templates/*             $RPM_BUILD_ROOT%{_appdir}/templates
 cp -pR  themes/*                $RPM_BUILD_ROOT%{_appdir}/themes
 
-ln -s	%{_sysconfdir}/%{name} 	$RPM_BUILD_ROOT%{_appdir}/config
+ln -s %{_sysconfdir}/%{name} 	$RPM_BUILD_ROOT%{_appdir}/config
+ln -s %{_defaultdocdir}/%{name}-%{version}/CREDITS $RPM_BUILD_ROOT%{_appdir}/docs
+
 install %{SOURCE1} 		$RPM_BUILD_ROOT%{_sysconfdir}/apache-%{name}.conf
 
 %clean
@@ -121,8 +125,9 @@ fi
 %attr(640,root,http) %{_sysconfdir}/%{name}/*.xml
 
 %dir %{_appdir}
-%{_appdir}/config
 %{_appdir}/*.php
+%{_appdir}/config
+%{_appdir}/docs
 %{_appdir}/lib
 %{_appdir}/locale
 %{_appdir}/templates
