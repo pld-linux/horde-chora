@@ -3,7 +3,7 @@ Summary:	Web Based CVS Program
 Summary(pl):	Program do obs³ugi CVS przez WWW
 Name:		chora
 Version:	2.0
-Release:	0.21
+Release:	0.25
 License:	GPL v2
 Group:		Networking/Utilities
 Source0:	ftp://ftp.horde.org/pub/chora/%{name}-h3-%{version}.tar.gz
@@ -11,6 +11,7 @@ Source0:	ftp://ftp.horde.org/pub/chora/%{name}-h3-%{version}.tar.gz
 Source1:	%{name}.conf
 URL:		http://www.horde.org/chora/
 Requires:	apache >= 1.3.33-2
+Requires:	apache(mod_access)
 # well. depending on configuration, it needs cvs, rcs or svn, cvsps >= 2.0b6
 Requires:	cvs
 Requires:	rcs
