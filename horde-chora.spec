@@ -114,7 +114,7 @@ fi
 %attr(770,root,http) %dir %{_sysconfdir}/%{name}
 %attr(640,root,root) %config(noreplace) %{_sysconfdir}/apache-%{name}.conf
 %attr(660,root,http) %config(noreplace) %{_sysconfdir}/%{name}/conf.php
-%attr(640,root,http) %config(noreplace) %{_sysconfdir}/%{name}/[^c]*.php
+%attr(640,root,http) %config(noreplace) %{_sysconfdir}/%{name}/[!c]*.php
 %attr(640,root,http) %config(noreplace) %{_sysconfdir}/%{name}/*.txt
 %attr(640,root,http) %config(noreplace) %{_sysconfdir}/%{name}/*.conf
 %ghost %{_sysconfdir}/%{name}/*.php.bak
