@@ -5,7 +5,7 @@ Name:		chora
 Version:	2.0
 Release:	1
 License:	GPL v2
-Group:		Networking/Utilities
+Group:		Applications/WWW
 Source0:	ftp://ftp.horde.org/pub/chora/%{name}-h3-%{version}.tar.gz
 # Source0-md5:	11f4b8ad6e0706026aefd0ee29eff7a5
 Source1:	%{name}.conf
