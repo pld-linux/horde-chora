@@ -1,13 +1,14 @@
+%define		_rc	rc1
 %include	/usr/lib/rpm/macros.php
 Summary:	Web Based CVS Program
 Summary(pl):	Program do obs³ugi CVS przez WWW
 Name:		chora
-Version:	2.0
-Release:	1.1
+Version:	2.0.1
+Release:	0.%{_rc}.1
 License:	GPL v2
 Group:		Applications/WWW
-Source0:	ftp://ftp.horde.org/pub/chora/%{name}-h3-%{version}.tar.gz
-# Source0-md5:	11f4b8ad6e0706026aefd0ee29eff7a5
+Source0:	ftp://ftp.horde.org/pub/chora/%{name}-h3-%{version}-%{_rc}.tar.gz
+# Source0-md5:	d7956bc6a2c293d29aa609865acdb5e9
 Source1:	%{name}.conf
 URL:		http://www.horde.org/chora/
 BuildRequires:	rpmbuild(macros) >= 1.226
@@ -45,7 +46,7 @@ Public License. Je¿eli chcesz siê dowiedzieæ czego¶ wiêcej (tak¿e help
 do IMP-a) zajrzyj na stronê <http://www.horde.org/>.
 
 %prep
-%setup -q -n %{name}-h3-%{version}
+%setup -q -n %{name}-h3-%{version}-%{_rc}
 
 %install
 rm -rf $RPM_BUILD_ROOT
