@@ -1,7 +1,7 @@
-%define		_hordeapp	chora
-%define		_rc	rc1
-%define		_rel	2
-
+%define	_hordeapp	chora
+%define	_rc		rc1
+%define	_rel	2.1
+#
 %include	/usr/lib/rpm/macros.php
 Summary:	Web Based CVS Program
 Summary(pl):	Program do obs³ugi CVS przez WWW
@@ -14,6 +14,7 @@ Source0:	ftp://ftp.horde.org/pub/chora/%{_hordeapp}-h3-%{version}-%{_rc}.tar.gz
 # Source0-md5:	d7956bc6a2c293d29aa609865acdb5e9
 Source1:	%{_hordeapp}.conf
 URL:		http://www.horde.org/chora/
+BuildRequires:	rpm-php-pearprov >= 4.0.2-98
 BuildRequires:	rpmbuild(macros) >= 1.226
 BuildRequires:	tar >= 1:1.15.1
 Requires:	apache >= 1.3.33-2
@@ -27,11 +28,11 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 # horde accesses it directly in help->about
 %define		_noautocompressdoc  CREDITS
-%define		_noautoreq			'pear(Horde.*)'
+%define		_noautoreq	'pear(Horde.*)'
 
 %define		hordedir	/usr/share/horde
-%define		_appdir		%{hordedir}/%{_hordeapp}
 %define		_sysconfdir	/etc/horde.org
+%define		_appdir		%{hordedir}/%{_hordeapp}
 
 %description
 Chora is the CVS viewing frontend, one of the Horde components. It
@@ -53,22 +54,23 @@ do IMP-a) zajrzyj na stronê <http://www.horde.org/>.
 %setup -q -c -T -n %{?_snap:%{_hordeapp}-%{_snap}}%{!?_snap:%{_hordeapp}-%{version}%{?_rc:-%{_rc}}}
 tar zxf %{SOURCE0} --strip-components=1
 
+sed -i -e '
+	s,/usr/local/bin/cvsps,/usr/bin/cvsps,
+	s,dirname(__FILE__).*/cvsgraph.conf.,%{_sysconfdir}/%{_hordeapp}/cvsgraph.conf,
+' config/conf.xml
+
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT%{_sysconfdir}/%{_hordeapp} \
 	$RPM_BUILD_ROOT%{_appdir}/{docs,lib,locale,templates,themes}
 
-cp -pR	*.php			$RPM_BUILD_ROOT%{_appdir}
+cp -a *.php			$RPM_BUILD_ROOT%{_appdir}
 for i in config/*.dist; do
-	cp -p $i $RPM_BUILD_ROOT%{_sysconfdir}/%{_hordeapp}/$(basename $i .dist)
+	cp -a $i $RPM_BUILD_ROOT%{_sysconfdir}/%{_hordeapp}/$(basename $i .dist)
 done
-
-echo "<?php ?>" > 		$RPM_BUILD_ROOT%{_sysconfdir}/%{_hordeapp}/conf.php
-sed -e '
-	s,/usr/local/bin/cvsps,/usr/bin/cvsps,
-	s,dirname(__FILE__).*/cvsgraph.conf.,%{_sysconfdir}/%{_hordeapp}/cvsgraph.conf,
-' < config/conf.xml > $RPM_BUILD_ROOT%{_sysconfdir}/%{_hordeapp}/conf.xml
-> $RPM_BUILD_ROOT%{_sysconfdir}/%{_hordeapp}/conf.php.bak
+echo '<?php ?>' >		$RPM_BUILD_ROOT%{_sysconfdir}/%{_hordeapp}/conf.php
+cp -p config/conf.xml	$RPM_BUILD_ROOT%{_sysconfdir}/%{_hordeapp}/conf.xml
+touch					$RPM_BUILD_ROOT%{_sysconfdir}/%{_hordeapp}/conf.php.bak
 
 cp -pR  lib/*                   $RPM_BUILD_ROOT%{_appdir}/lib
 cp -pR  locale/*                $RPM_BUILD_ROOT%{_appdir}/locale
@@ -77,7 +79,6 @@ cp -pR  themes/*                $RPM_BUILD_ROOT%{_appdir}/themes
 
 ln -s %{_sysconfdir}/%{_hordeapp} 	$RPM_BUILD_ROOT%{_appdir}/config
 ln -s %{_docdir}/%{name}-%{version}/CREDITS $RPM_BUILD_ROOT%{_appdir}/docs
-
 install %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/apache-%{_hordeapp}.conf
 
 %clean
