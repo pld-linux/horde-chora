@@ -1,11 +1,11 @@
 %define	_hordeapp	chora
 %define	_rc		rc1
-%define	_rel	2.1
+%define	_rel	0.1
 #
 %include	/usr/lib/rpm/macros.php
 Summary:	Web Based CVS Program
 Summary(pl):	Program do obs³ugi CVS przez WWW
-Name:		%{_hordeapp}
+Name:		horde-%{_hordeapp}
 Version:	2.0.1
 Release:	%{?_rc:0.%{_rc}.}%{?_snap:0.%(echo %{_snap} | tr -d -).}%{_rel}
 License:	GPL v2
@@ -23,6 +23,7 @@ Requires:	apache(mod_access)
 Requires:	cvs
 Requires:	rcs
 Requires:	horde >= 3.0
+Obsoletes:	%{_hordeapp}
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
