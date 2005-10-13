@@ -1,6 +1,6 @@
 %define	_hordeapp	chora
-%define	_rc		rc1
-%define	_rel	0.1
+#define	_rc		rc1
+%define	_rel	1
 #
 %include	/usr/lib/rpm/macros.php
 Summary:	Web Based CVS Program
@@ -10,8 +10,9 @@ Version:	2.0.1
 Release:	%{?_rc:0.%{_rc}.}%{?_snap:0.%(echo %{_snap} | tr -d -).}%{_rel}
 License:	GPL v2
 Group:		Applications/WWW
-Source0:	ftp://ftp.horde.org/pub/chora/%{_hordeapp}-h3-%{version}-%{_rc}.tar.gz
-# Source0-md5:	d7956bc6a2c293d29aa609865acdb5e9
+#Source0:	ftp://ftp.horde.org/pub/chora/%{_hordeapp}-h3-%{version}-%{_rc}.tar.gz
+Source0:	ftp://ftp.horde.org/pub/chora/%{_hordeapp}-h3-%{version}.tar.gz
+# Source0-md5:	8f3f3e81c839e6f13b797ab911b53652
 Source1:	%{_hordeapp}.conf
 URL:		http://www.horde.org/chora/
 BuildRequires:	rpm-php-pearprov >= 4.0.2-98
