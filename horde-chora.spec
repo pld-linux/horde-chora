@@ -18,13 +18,14 @@ URL:		http://www.horde.org/chora/
 BuildRequires:	rpm-php-pearprov >= 4.0.2-98
 BuildRequires:	rpmbuild(macros) >= 1.226
 BuildRequires:	tar >= 1:1.15.1
-Requires:	apache >= 1.3.33-2
 Requires:	apache(mod_access)
 # well. depending on configuration, it needs cvs, rcs or svn, cvsps >= 2.0b6
 Requires:	cvs
-Requires:	rcs
 Requires:	horde >= 3.0
+Requires:	rcs
+Requires:	webserver = apache
 Obsoletes:	%{_hordeapp}
+Conflicts:	apache < 1.3.33-2
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -57,7 +58,7 @@ do IMP-a) zajrzyj na stronê <http://www.horde.org/>.
 tar zxf %{SOURCE0} --strip-components=1
 
 sed -i -e '
-	s,/usr/local/bin/cvsps,/usr/bin/cvsps,
+	s,/''usr/local/bin/cvsps,%{_bindir}/cvsps,
 	s,dirname(__FILE__).*/cvsgraph.conf.,%{_sysconfdir}/%{_hordeapp}/cvsgraph.conf,
 ' config/conf.xml
 
