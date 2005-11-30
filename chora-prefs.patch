@@ -1,0 +1,21 @@
+diff -u -r chora-2.0.1.pre/config/conf.xml chora-2.0.1.new/config/conf.xml
+--- chora-2.0.1.pre/config/conf.xml	2005-09-22 15:56:37.000000000 +0300
++++ chora-2.0.1.new/config/conf.xml	2005-12-01 00:31:17.000000000 +0200
+@@ -19,7 +19,7 @@
+ 
+    <configstring name="cvsps" required="false" desc="If you have cvsps
+    installed, we can generate patchset information. You need at least version
+-   2.0b6 of cvsps. Path to the cvsps executable, e.g. /usr/local/bin/cvsps"/>
++   2.0b6 of cvsps. Path to the cvsps executable, e.g. /usr/bin/cvsps"/>
+    <configstring name="cvsps_home" desc="Directory where the .cvsps cache
+    files can be created - it must be writeable by the
+    webserver.">/tmp</configstring>
+@@ -28,7 +28,7 @@
+    installed, we can generate repository graphs. Path to the cvsgraph
+    executable, e.g. /usr/bin/cvsgraph"/>
+    <configphp name="cvsgraph_conf" desc="CvsGraph configuration
+-   file">dirname(__FILE__) . '/cvsgraph.conf'</configphp>
++   file">/etc/webapps/horde-chora/cvsgraph.conf</configphp>
+   </configsection>
+  </configtab>
+ 

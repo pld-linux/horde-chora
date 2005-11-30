@@ -1,6 +1,6 @@
 %define	_hordeapp	chora
 #define	_rc		rc1
-%define	_rel	1.2
+%define	_rel	1.4
 #
 %include	/usr/lib/rpm/macros.php
 Summary:	Web Based CVS Program
@@ -14,6 +14,7 @@ Group:		Applications/WWW
 Source0:	ftp://ftp.horde.org/pub/chora/%{_hordeapp}-h3-%{version}.tar.gz
 # Source0-md5:	8f3f3e81c839e6f13b797ab911b53652
 Source1:	%{_hordeapp}.conf
+Patch0:		%{_hordeapp}-prefs.patch
 URL:		http://www.horde.org/chora/
 BuildRequires:	rpm-php-pearprov >= 4.0.2-98
 BuildRequires:	rpmbuild(macros) >= 1.226
@@ -58,17 +59,12 @@ do IMP-a) zajrzyj na stronê <http://www.horde.org/>.
 %prep
 %setup -qcT -n %{?_snap:%{_hordeapp}-%{_snap}}%{!?_snap:%{_hordeapp}-%{version}%{?_rc:-%{_rc}}}
 tar zxf %{SOURCE0} --strip-components=1
+%patch0 -p1
 
 rm -f {,*/}.htaccess
 for i in config/*.dist; do
 	mv $i config/$(basename $i .dist)
 done
-
-# TODO create patch
-sed -i -e '
-	s,/''usr/local/bin/cvsps,%{_bindir}/cvsps,
-	s,dirname(__FILE__).*/cvsgraph.conf.,%{_sysconfdir}/cvsgraph.conf,
-' config/conf.xml
 
 %install
 rm -rf $RPM_BUILD_ROOT
