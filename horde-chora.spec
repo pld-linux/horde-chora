@@ -77,10 +77,10 @@ echo '<?php ?>' >		$RPM_BUILD_ROOT%{_sysconfdir}/conf.php
 cp -p config/conf.xml	$RPM_BUILD_ROOT%{_sysconfdir}/conf.xml
 touch					$RPM_BUILD_ROOT%{_sysconfdir}/conf.php.bak
 
-cp -pR  lib/*                   $RPM_BUILD_ROOT%{_appdir}/lib
-cp -pR  locale/*                $RPM_BUILD_ROOT%{_appdir}/locale
-cp -pR  templates/*             $RPM_BUILD_ROOT%{_appdir}/templates
-cp -pR  themes/*                $RPM_BUILD_ROOT%{_appdir}/themes
+cp -a  lib/*                   $RPM_BUILD_ROOT%{_appdir}/lib
+cp -a  locale/*                $RPM_BUILD_ROOT%{_appdir}/locale
+cp -a  templates/*             $RPM_BUILD_ROOT%{_appdir}/templates
+cp -a  themes/*                $RPM_BUILD_ROOT%{_appdir}/themes
 
 ln -s %{_sysconfdir} 	$RPM_BUILD_ROOT%{_appdir}/config
 ln -s %{_docdir}/%{name}-%{version}/CREDITS $RPM_BUILD_ROOT%{_appdir}/docs
