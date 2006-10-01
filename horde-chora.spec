@@ -1,6 +1,6 @@
 %define	_hordeapp	chora
 #define	_rc		rc1
-%define	_rel	3
+%define	_rel	4
 #
 %include	/usr/lib/rpm/macros.php
 Summary:	Web Based CVS Program
