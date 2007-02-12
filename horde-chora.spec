@@ -4,7 +4,7 @@
 #
 %include	/usr/lib/rpm/macros.php
 Summary:	Web Based CVS Program
-Summary(pl):	Program do obs³ugi CVS przez WWW
+Summary(pl.UTF-8):   Program do obsÅ‚ugi CVS przez WWW
 Name:		horde-%{_hordeapp}
 Version:	2.0.1
 Release:	%{?_rc:0.%{_rc}.}%{?_snap:0.%(echo %{_snap} | tr -d -).}%{_rel}
@@ -46,13 +46,13 @@ The Horde Project writes web applications in PHP and releases them
 under the GNU Public License. For more information (including help
 with IMP) please visit <http://www.horde.org/>.
 
-%description -l pl
-Chora jest programem do obs³ugi CVS przez WWW, bazowanym na Horde.
-Daje dostêp do zasobów CVS z wygodnym interfejsem WWW.
+%description -l pl.UTF-8
+Chora jest programem do obsÅ‚ugi CVS przez WWW, bazowanym na Horde.
+Daje dostÄ™p do zasobÃ³w CVS z wygodnym interfejsem WWW.
 
 Projekt Horde tworzy aplikacje w PHP i dostarcza je na licencji GNU
-Public License. Je¿eli chcesz siê dowiedzieæ czego¶ wiêcej (tak¿e help
-do IMP-a) zajrzyj na stronê <http://www.horde.org/>.
+Public License. JeÅ¼eli chcesz siÄ™ dowiedzieÄ‡ czegoÅ› wiÄ™cej (takÅ¼e help
+do IMP-a) zajrzyj na stronÄ™ <http://www.horde.org/>.
 
 %prep
 %setup -qcT -n %{?_snap:%{_hordeapp}-%{_snap}}%{!?_snap:%{_hordeapp}-%{version}%{?_rc:-%{_rc}}}
