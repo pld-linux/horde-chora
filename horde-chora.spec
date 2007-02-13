@@ -4,7 +4,7 @@
 #
 %include	/usr/lib/rpm/macros.php
 Summary:	Web Based CVS Program
-Summary(pl.UTF-8):   Program do obsługi CVS przez WWW
+Summary(pl.UTF-8):	Program do obsługi CVS przez WWW
 Name:		horde-%{_hordeapp}
 Version:	2.0.1
 Release:	%{?_rc:0.%{_rc}.}%{?_snap:0.%(echo %{_snap} | tr -d -).}%{_rel}
