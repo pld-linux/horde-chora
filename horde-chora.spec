@@ -20,7 +20,7 @@ BuildRequires:	rpm-php-pearprov >= 4.0.2-98
 BuildRequires:	rpmbuild(macros) >= 1.268
 BuildRequires:	tar >= 1:1.15.1
 # well. depending on configuration, it needs cvs, rcs or svn, cvsps >= 2.0b6
-Requires:	cvs
+Requires:	cvs-client
 Requires:	horde >= 3.0
 Requires:	rcs
 Requires:	webapps
