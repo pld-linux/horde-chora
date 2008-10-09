@@ -1,16 +1,13 @@
 %define	_hordeapp	chora
-#define	_rc		rc1
-%define	rel	6
 #
 %include	/usr/lib/rpm/macros.php
 Summary:	Web Based CVS Program
 Summary(pl.UTF-8):	Program do obsługi CVS przez WWW
 Name:		horde-%{_hordeapp}
 Version:	2.0.2
-Release:	%{?_rc:0.%{_rc}.}%{?_snap:0.%(echo %{_snap} | tr -d -).}%{rel}
+Release:	6
 License:	GPL v2
 Group:		Applications/WWW
-#Source0:	ftp://ftp.horde.org/pub/chora/%{_hordeapp}-h3-%{version}-%{_rc}.tar.gz
 Source0:	ftp://ftp.horde.org/pub/chora/%{_hordeapp}-h3-%{version}.tar.gz
 # Source0-md5:	dfddec61103e4437b5ad773888ae55c2
 Source1:	%{_hordeapp}.conf
@@ -55,8 +52,7 @@ Public License. Jeżeli chcesz się dowiedzieć czegoś więcej (także help
 do IMP-a) zajrzyj na stronę <http://www.horde.org/>.
 
 %prep
-%setup -qcT -n %{?_snap:%{_hordeapp}-%{_snap}}%{!?_snap:%{_hordeapp}-%{version}%{?_rc:-%{_rc}}}
-tar zxf %{SOURCE0} --strip-components=1
+%setup -q
 %patch0 -p1
 
 rm {,*/}.htaccess
