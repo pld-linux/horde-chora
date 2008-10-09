@@ -50,7 +50,7 @@ Public License. Jeżeli chcesz się dowiedzieć czegoś więcej (także help
 do IMP-a) zajrzyj na stronę <http://www.horde.org/>.
 
 %prep
-%setup -q
+%setup -q -n %{_hordeapp}-h3-%{version}
 %patch0 -p1
 
 rm {,*/}.htaccess
