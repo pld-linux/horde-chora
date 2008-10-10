@@ -5,13 +5,14 @@ Summary:	Web Based CVS Program
 Summary(pl.UTF-8):	Program do obsługi CVS przez WWW
 Name:		horde-%{_hordeapp}
 Version:	2.0.2
-Release:	6
+Release:	7
 License:	GPL v2
 Group:		Applications/WWW
 Source0:	ftp://ftp.horde.org/pub/chora/%{_hordeapp}-h3-%{version}.tar.gz
 # Source0-md5:	dfddec61103e4437b5ad773888ae55c2
 Source1:	%{_hordeapp}.conf
 Patch0:		%{_hordeapp}-prefs.patch
+Patch1:		%{_hordeapp}-FRAMEWORK_3-20081010.patch
 URL:		http://www.horde.org/chora/
 BuildRequires:	rpm-php-pearprov >= 4.0.2-98
 BuildRequires:	rpmbuild(macros) >= 1.268
@@ -51,6 +52,7 @@ do IMP-a) zajrzyj na stronę <http://www.horde.org/>.
 %prep
 %setup -q -n %{_hordeapp}-h3-%{version}
 %patch0 -p1
+%patch1 -p1
 
 rm {,*/}.htaccess
 for i in config/*.dist; do
@@ -65,7 +67,7 @@ cp -a *.php $RPM_BUILD_ROOT%{_appdir}
 cp -a config/* $RPM_BUILD_ROOT%{_sysconfdir}
 echo '<?php ?>' > $RPM_BUILD_ROOT%{_sysconfdir}/conf.php
 touch $RPM_BUILD_ROOT%{_sysconfdir}/conf.php.bak
-cp -a lib locale templates themes $RPM_BUILD_ROOT%{_appdir}
+cp -a js lib locale templates themes $RPM_BUILD_ROOT%{_appdir}
 cp -a docs/CREDITS $RPM_BUILD_ROOT%{_appdir}/docs
 
 ln -s %{_sysconfdir} 	$RPM_BUILD_ROOT%{_appdir}/config
@@ -135,6 +137,7 @@ fi
 %{_appdir}/*.php
 %{_appdir}/config
 %{_appdir}/docs
+%{_appdir}/js
 %{_appdir}/lib
 %{_appdir}/locale
 %{_appdir}/templates
