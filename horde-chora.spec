@@ -23,7 +23,7 @@ Suggests:	cvs-client
 Suggests:	cvsps
 Suggests:	rcs
 Suggests:	subversion
-Obsoletes:	%{_hordeapp}
+Obsoletes:	chora
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
