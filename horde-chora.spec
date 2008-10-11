@@ -5,7 +5,7 @@ Summary:	Web Based CVS Program
 Summary(pl.UTF-8):	Program do obsługi CVS przez WWW
 Name:		horde-%{_hordeapp}
 Version:	2.0.2
-Release:	7
+Release:	8
 License:	GPL v2
 Group:		Applications/WWW
 Source0:	ftp://ftp.horde.org/pub/chora/%{_hordeapp}-h3-%{version}.tar.gz
@@ -17,10 +17,12 @@ URL:		http://www.horde.org/chora/
 BuildRequires:	rpm-php-pearprov >= 4.0.2-98
 BuildRequires:	rpmbuild(macros) >= 1.268
 # well. depending on configuration, it needs cvs, rcs or svn, cvsps >= 2.0b6
-Requires:	cvs-client
 Requires:	horde >= 3.0
-Requires:	rcs
 Requires:	webapps
+Suggests:	cvs-client
+Suggests:	cvsps
+Suggests:	rcs
+Suggests:	subversion
 Obsoletes:	%{_hordeapp}
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
