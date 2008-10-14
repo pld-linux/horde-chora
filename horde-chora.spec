@@ -5,7 +5,7 @@ Summary:	Web Based CVS Program
 Summary(pl.UTF-8):	Program do obsługi CVS przez WWW
 Name:		horde-%{_hordeapp}
 Version:	2.0.2
-Release:	8
+Release:	9
 License:	GPL v2
 Group:		Applications/WWW
 Source0:	ftp://ftp.horde.org/pub/chora/%{_hordeapp}-h3-%{version}.tar.gz
@@ -60,6 +60,9 @@ rm {,*/}.htaccess
 for i in config/*.dist; do
 	mv $i config/$(basename $i .dist)
 done
+
+# considered harmful (horde/docs/SECURITY)
+rm test.php
 
 %install
 rm -rf $RPM_BUILD_ROOT
