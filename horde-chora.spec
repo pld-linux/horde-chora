@@ -1,6 +1,5 @@
 %define	_hordeapp	chora
 #
-%include	/usr/lib/rpm/macros.php
 Summary:	Web Based CVS Program
 Summary(pl.UTF-8):	Program do obsługi CVS przez WWW
 Name:		horde-%{_hordeapp}
